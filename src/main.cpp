@@ -74,20 +74,6 @@ void setup() {
   // To find valid Signal K Paths that fits your need you look at this link:
   // https://signalk.org/specification/1.4.0/doc/vesselsBranch.html
 
-  // Measure fridge temperature
-  auto* fridge_temp =
-      new OneWireTemperature(dts, read_delay, "/fridgeCompartmentTemperature/oneWire");
-
-  fridge_temp->connect_to(new Linear(1.0, 0.0, "/fridgeCompartmentTemperature/linear"))
-      ->connect_to(new SKOutputFloat("environment.fridge.compartment.temperature",
-                                     "/fridgeCompartmentTemperature/skPath",
-                                     new SKMetadata("K", 
-                                                    "Fridge Temperature", 
-                                                    "Fridge Compartment Temperature",
-                                                    "Fridge Temp")))
-      ->connect_to(new LambdaTransform<float, const char*>(fridge_temperature_to_string_fn))
-      ->connect_to(display, 0);
-
     // Measure fridge temperature
   auto* plate_temp =
       new OneWireTemperature(dts, read_delay, "/fridgePlateTemperature/oneWire");
@@ -101,6 +87,21 @@ void setup() {
                                                     "Plate Temp")))
       ->connect_to(new LambdaTransform<float, const char*>(plate_temperature_to_string_fn))
       ->connect_to(display, 1);
+  // Measure fridge temperature
+
+  auto* fridge_temp =
+      new OneWireTemperature(dts, read_delay, "/fridgeCompartmentTemperature/oneWire");
+
+  fridge_temp->connect_to(new Linear(1.0, 0.0, "/fridgeCompartmentTemperature/linear"))
+      ->connect_to(new SKOutputFloat("environment.fridge.compartment.temperature",
+                                     "/fridgeCompartmentTemperature/skPath",
+                                     new SKMetadata("K", 
+                                                    "Fridge Temperature", 
+                                                    "Fridge Compartment Temperature",
+                                                    "Fridge Temp")))
+      ->connect_to(new LambdaTransform<float, const char*>(fridge_temperature_to_string_fn))
+      ->connect_to(display, 0);
+
 
   // Configuration is done, lets start the readings of the sensors!
   sensesp_app->start();
