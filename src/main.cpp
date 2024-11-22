@@ -45,8 +45,6 @@ void setup() {
   SensESPAppBuilder builder;
   sensesp_app = (&builder)
     ->set_hostname("SensESP Fridge Monitor")
-    ->enable_uptime_sensor()
-    ->enable_free_mem_sensor()
     ->get_app();
 
   /*
@@ -79,7 +77,7 @@ void setup() {
       new OneWireTemperature(dts, read_delay, "/fridgePlateTemperature/oneWire");
 
   plate_temp->connect_to(new Linear(1.0, 0.0, "/fridgePlateTemperature/linear"))
-      ->connect_to(new SKOutputFloat("environment.fridge.plate.temperature",
+      ->connect_to(new SKOutputFloat("environment.inside.refrigerator.plate_temperature",
                                      "/fridgePlateTemperature/skPath",
                                      new SKMetadata("K", 
                                                     "Plate Temperature", 
@@ -93,7 +91,7 @@ void setup() {
       new OneWireTemperature(dts, read_delay, "/fridgeCompartmentTemperature/oneWire");
 
   fridge_temp->connect_to(new Linear(1.0, 0.0, "/fridgeCompartmentTemperature/linear"))
-      ->connect_to(new SKOutputFloat("environment.fridge.compartment.temperature",
+      ->connect_to(new SKOutputFloat("environment.inside.refrigerator.temperature",
                                      "/fridgeCompartmentTemperature/skPath",
                                      new SKMetadata("K", 
                                                     "Fridge Temperature", 
