@@ -77,7 +77,7 @@ void setup() {
       new OneWireTemperature(dts, read_delay, "/fridgePlateTemperature/oneWire");
 
   plate_temp->connect_to(new Linear(1.0, 0.0, "/fridgePlateTemperature/linear"))
-      ->connect_to(new SKOutputFloat("environment.inside.refrigerator.plate_temperature",
+      ->connect_to(new SKOutputFloat("environment.inside.refrigerator.plateTemperature",
                                      "/fridgePlateTemperature/skPath",
                                      new SKMetadata("K", 
                                                     "Plate Temperature", 
